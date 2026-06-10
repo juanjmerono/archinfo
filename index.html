@@ -276,11 +276,7 @@ tbody td input::placeholder{color:var(--text-muted);font-size:.8rem}
   <!-- ═══ Comparison (single-proposal metrics) ═══ -->
   <section id="comparison-section">
     <h2>📊 Métricas de propuesta</h2>
-    <div class="comparison-toolbar">
-      <select id="proposal-selector">
-        <option value="__current__">Actual</option>
-      </select>
-    </div>
+
     <div id="comparison-wrapper"></div>
   </section>
 
@@ -367,7 +363,7 @@ var state = freshState();
 var _page = 1;
 var _pageSize = 20;
 var availableProposals = [];
-var cachedProposals = {};
+
 
 function getTribeNames(){
   return state.tribus.map(function(t){ return t.nombre; });
@@ -993,22 +989,11 @@ function renderMetrics(prop, propName){
 }
 
 function renderComparison(){
-  var sel = document.getElementById('proposal-selector');
-  var val = sel ? sel.value : '__current__';
-  if(val === '__current__'){
-    renderMetrics({
-      nombre: state.nombre,
-      tribus: state.tribus,
-      apps: state.apps
-    }, 'Actual');
-  } else {
-    var cached = cachedProposals[val];
-    if(cached){
-      renderMetrics(cached, cached.nombre || 'Propuesta');
-    } else {
-      document.getElementById('comparison-wrapper').innerHTML = '<div class="empty-hint" style="text-align:center;padding:24px;color:var(--text-muted)">Cargando propuesta…</div>';
-    }
-  }
+  renderMetrics({
+    nombre: state.nombre,
+    tribus: state.tribus,
+    apps: state.apps
+  }, state.nombre || 'Actual');
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1099,17 +1084,6 @@ function setupEvents(){
   document.getElementById('btn-exportar').addEventListener('click', exportJSON);
   document.getElementById('btn-limpiar').addEventListener('click', resetState);
 
-  // Comparison
-  document.getElementById('proposal-selector').addEventListener('change', function(){
-    var val = this.value;
-    if(val !== '__current__' && !cachedProposals[val]){
-      fetch(val).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
-        .then(function(data){cachedProposals[val]=data;renderComparison();toast('Propuesta "'+(data.nombre||'')+'" cargada.','success');})
-        .catch(function(e){toast('Error al cargar propuesta: '+e.message,'error');document.getElementById('proposal-selector').value='__current__';renderComparison();});
-    }
-    renderComparison();
-  });
-
   // Modal
   document.getElementById('btn-cancel-load').addEventListener('click', closeLoadModal);
   document.getElementById('load-modal').addEventListener('click', function(e){ if(e.target===this) closeLoadModal(); });
@@ -1155,25 +1129,10 @@ function fetchProposalsList(){
     .then(function(data){
       if(!Array.isArray(data)) throw new Error('Formato inválido');
       availableProposals = data;
-      renderProposalSelector();
     })
     .catch(function(e){
       toast('No se pudo cargar proposals.json — '+e.message, 'warn');
     });
-}
-
-function renderProposalSelector(){
-  var sel = document.getElementById('proposal-selector');
-  var cur = sel.value;
-  sel.innerHTML = '<option value="__current__">Actual</option>';
-  availableProposals.forEach(function(p){
-    var opt = document.createElement('option');
-    opt.value = p.url;
-    opt.textContent = p.nombre;
-    sel.appendChild(opt);
-  });
-  sel.value = cur;
-  if(sel.value !== cur && sel.options[cur]) sel.value = cur;
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1218,7 +1177,6 @@ function loadExternalProposal(url){
       syncUI();
       renderComparison();
       saveState();
-      document.getElementById('proposal-selector').value = '__current__';
       toast('Propuesta "'+(data.nombre||'')+'" cargada en el editor.', 'success');
     })
     .catch(function(e){
