@@ -979,10 +979,10 @@ function renderMetrics(prop, propName){
   h += '</tbody></table></div>';
   h += '<div class="cmp-detail"><table><thead><tr><th>Tribu</th><th class="cmp-val">Es.</th><th class="cmp-val">Per.</th><th class="cmp-val">Apps</th></tr></thead><tbody>';
   prop.tribus.forEach(function(t){
-    var esc = (t.escuadrones||[]).length;
+    var numEsc = (t.escuadrones||[]).length;
     var pers = (t.escuadrones||[]).reduce(function(s,e){return s+(e.miembros||0);},0);
     var apps = (prop.apps||[]).filter(function(a){return a.tribu===t.nombre;}).length;
-    h += '<tr><td>'+esc(t.nombre)+'</td><td class="cmp-val">'+esc+'</td><td class="cmp-val">'+pers+'</td><td class="cmp-val">'+apps+'</td></tr>';
+    h += '<tr><td>'+esc(t.nombre)+'</td><td class="cmp-val">'+numEsc+'</td><td class="cmp-val">'+pers+'</td><td class="cmp-val">'+apps+'</td></tr>';
   });
   h += '</tbody></table></div>';
   wrapper.innerHTML = h;
