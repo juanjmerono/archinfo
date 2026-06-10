@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arquitectura de Información · Área TIC</title>
+<style>
+:root {
+  --bg: #f1f5f9;
+  --surface: #ffffff;
+  --border: #e2e8f0;
+  --text: #1e293b;
+  --text-dim: #64748b;
+  --text-muted: #94a3b8;
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-light: #dbeafe;
+  --accent-lighter: #eff6ff;
+  --green-bg: #dcfce7;
+  --green-text: #166534;
+  --amber-bg: #fef3c7;
+  --amber-text: #92400e;
+  --red-bg: #fee2e2;
+  --red-text: #991b1b;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --radius: 8px;
+  --radius-sm: 4px;
+  --font: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+[hidden]{display:none!important}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.5;padding:24px}
+#app{max-width:1200px;margin:0 auto}
+
+/* Header */
+header{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:16px}
+header h1{font-size:1.2rem;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.header-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.header-controls input[type="text"]{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.9rem;font-family:var(--font);outline:none;transition:border-color .15s}
+.header-controls input[type="text"]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-light)}
+
+/* Buttons */
+button{font-family:var(--font);font-size:.85rem;cursor:pointer;border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 14px;background:var(--surface);color:var(--text);transition:background .15s,border-color .15s;white-space:nowrap;display:inline-flex;align-items:center;gap:5px}
+button:hover{background:var(--bg);border-color:var(--text-dim)}
+button:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-secondary{background:var(--surface)}
+.btn-danger{color:var(--red-text);border-color:var(--red-bg)}
+.btn-danger:hover{background:var(--red-bg)}
+.btn-ghost{background:none;border:none;color:var(--text-dim);padding:4px 8px}
+.btn-ghost:hover{color:var(--text);background:var(--bg)}
+.btn-sm{padding:4px 10px;font-size:.8rem}
+.btn-icon{background:none;border:none;cursor:pointer;padding:2px 5px;font-size:.85rem;color:var(--text-muted);border-radius:var(--radius-sm);line-height:1}
+.btn-icon:hover{color:var(--text);background:var(--bg)}
+
+/* Sections */
+section{background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px 24px;margin-bottom:16px}
+section h2{font-size:1rem;font-weight:600;margin-bottom:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em}
+
+/* ── Tribe Cards ─────────────────────────────────── */
+#tribus-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;margin-bottom:12px}
+.tribe-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;background:var(--accent-lighter);transition:box-shadow .15s}
+.tribe-card:hover{box-shadow:var(--shadow)}
+.tribe-card-header{display:flex;gap:10px;align-items:flex-start;margin-bottom:10px}
+.tribe-fields{flex:1;min-width:0}
+.tribe-fields input[type="text"],.tribe-fields textarea{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);outline:none;font-size:.88rem;transition:border-color .15s}
+.tribe-fields input:focus,.tribe-fields textarea:focus{border-color:var(--accent)}
+.tribe-fields input{font-weight:600;margin-bottom:4px}
+.tribe-fields textarea{resize:vertical;min-height:48px;font-size:.82rem;color:var(--text-dim)}
+.btn-remove-tribe{flex-shrink:0;background:none;border:none;font-size:1.3rem;color:var(--text-muted);cursor:pointer;padding:2px 6px;line-height:1;border-radius:var(--radius-sm)}
+.btn-remove-tribe:hover{color:var(--red-text);background:var(--red-bg)}
+
+/* Squad list inside cards */
+.squad-list{margin-bottom:8px}
+.squad-item{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
+.squad-item .squad-name-input{flex:1;min-width:120px;padding:5px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.84rem;font-family:var(--font);outline:none}
+.squad-item .squad-name-input:focus{border-color:var(--accent)}
+.squad-item .squad-miembros-input{width:64px;padding:5px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.84rem;font-family:var(--font);outline:none;text-align:center}
+.squad-item .squad-miembros-input:focus{border-color:var(--accent)}
+.squad-item .miembros-label{font-size:.78rem;color:var(--text-dim);white-space:nowrap}
+.btn-remove-squad{flex-shrink:0;background:none;border:none;font-size:1.1rem;color:var(--text-muted);cursor:pointer;padding:2px 6px;line-height:1;border-radius:var(--radius-sm)}
+.btn-remove-squad:hover{color:var(--red-text);background:var(--red-bg)}
+.btn-add-squad{font-size:.82rem;padding:4px 12px;margin-top:2px}
+.tribe-apps-info{font-size:.8rem;color:var(--text-dim);margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
+.tribe-apps-info strong{color:var(--text)}
+.empty-tribes{text-align:center;padding:32px 16px;color:var(--text-dim);font-style:italic}
+#btn-add-tribe{width:100%}
+
+/* ── App Table ───────────────────────────────────── */
+.tabla-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.tabla-toolbar input{flex:1;min-width:140px;padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;outline:none;font-family:var(--font)}
+.tabla-toolbar input:focus{border-color:var(--accent)}
+#state-filter{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.84rem;font-family:var(--font);outline:none;background:var(--surface);cursor:pointer;color:var(--text)}
+#state-filter:focus{border-color:var(--accent)}
+#app-count-table{font-size:.82rem;color:var(--text-dim);white-space:nowrap}
+#tabla-wrapper{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+thead th{text-align:left;padding:10px 12px;font-weight:600;font-size:.78rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim);border-bottom:2px solid var(--border);position:sticky;top:0;background:var(--surface)}
+tbody td{padding:6px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
+tbody tr:hover td{background:var(--bg)}
+.app-cell .app-title{font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.app-cell .app-title .custom-badge{font-size:.6rem;background:var(--amber-bg);color:var(--amber-text);padding:1px 6px;border-radius:999px;font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.app-cell .app-title .btn-remove-app{font-size:.85rem;color:var(--text-muted);padding:0 4px}
+.app-cell .app-title .btn-remove-app:hover{color:var(--red-text)}
+.app-cell .app-desc{font-size:.78rem;color:var(--text-dim);line-height:1.3;margin-top:1px}
+.app-cell .app-url{font-size:.78rem;margin-top:2px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.app-cell .app-url a{color:var(--accent);text-decoration:none}
+.app-cell .app-url a:hover{text-decoration:underline}
+.app-cell .app-url .url-input{font-size:.78rem;padding:2px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);font-family:var(--font);width:180px;outline:none}
+.app-cell .app-url .url-input:focus{border-color:var(--accent)}
+tbody td input[type="text"]{width:100%;padding:6px 8px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.84rem;font-family:var(--font);outline:none;background:var(--surface);transition:border-color .15s}
+tbody td input:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-light)}
+tbody td input::placeholder{color:var(--text-muted);font-size:.8rem}
+
+/* ── Pagination ──────────────────────────────────── */
+.pagination-bar{display:flex;align-items:center;gap:6px;margin-top:12px;flex-wrap:wrap}
+.pagination-bar .page-btn{padding:4px 10px;min-width:34px;justify-content:center;font-size:.82rem}
+.pagination-bar .page-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600}
+.pagination-bar .page-btn:disabled{opacity:.4;cursor:default}
+.pagination-bar .page-info{font-size:.82rem;color:var(--text-dim);margin-left:4px}
+.pagination-bar select{padding:4px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.82rem;font-family:var(--font);outline:none;background:var(--surface);cursor:pointer}
+.pagination-bar .size-label{font-size:.82rem;color:var(--text-dim);display:inline-flex;align-items:center;gap:4px}
+
+/* ── Custom apps ─────────────────────────────────── */
+.custom-app-form{display:flex;flex-wrap:wrap;gap:8px;align-items:flex-end;margin-bottom:12px}
+.custom-app-form .field-group{display:flex;flex-direction:column;gap:2px}
+.custom-app-form .field-group label{font-size:.72rem;color:var(--text-dim);font-weight:500;text-transform:uppercase;letter-spacing:.03em}
+.custom-app-form input{padding:7px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:.85rem;font-family:var(--font);outline:none}
+.custom-app-form input:focus{border-color:var(--accent)}
+.custom-app-form input[type="text"]{min-width:140px}
+#custom-apps-list{display:flex;flex-wrap:wrap;gap:5px}
+#custom-apps-list .empty-hint{font-size:.82rem;color:var(--text-muted);font-style:italic}
+
+/* ── Actions ──────────────────────────────────────── */
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ── Comparison ──────────────────────────────────── */
+#comparison-wrapper{overflow-x:auto;margin-top:8px}
+.comparison-toolbar{display:flex;align-items:center;gap:12px;margin-bottom:8px;flex-wrap:wrap}
+#num-propuestas{font-size:.85rem;color:var(--text-dim)}
+.cmp-summary{margin-bottom:20px}
+.cmp-summary table,.cmp-detail table{width:100%;min-width:550px;border-collapse:collapse;font-size:.84rem}
+.cmp-summary th,.cmp-summary td,.cmp-detail th,.cmp-detail td{padding:7px 10px;border-bottom:1px solid var(--border);text-align:left}
+.cmp-summary thead th,.cmp-detail thead th{font-weight:600;font-size:.76rem;text-transform:uppercase;letter-spacing:.03em;color:var(--text-dim);border-bottom:2px solid var(--border);white-space:nowrap;position:sticky;top:0;background:var(--surface)}
+.cmp-summary td:first-child,.cmp-detail td:first-child{font-weight:500;white-space:nowrap;position:sticky;left:0;background:var(--surface)}
+.cmp-metric{text-align:center}
+.cmp-summary .row-green td{background:#f0fdf4}
+.cmp-summary .row-amber td{background:#fffbeb}
+.cmp-summary .row-red td{background:#fef2f2}
+.cmp-detail .detail-cell{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cmp-detail .detail-cell .ditem{font-size:.8rem}
+.cmp-detail .ditem strong{font-weight:600}
+.cmp-detail .tribe-row-agree td{background:#f0fdf4}
+.cmp-detail .tribe-row-disagree td{background:#fef2f2}
+.cmp-detail td:not(:first-child){text-align:center}
+.cmp-summary .value-cell{padding:7px 10px;white-space:nowrap}
+.cmp-val{text-align:center}
+.best-value{font-weight:700}
+.best-badge{display:inline-block;font-size:.65rem;background:var(--accent);color:#fff;border-radius:999px;padding:1px 7px;margin-left:4px;font-weight:600;vertical-align:middle}
+
+/* ── Modal ──────────────────────────────────────────── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:1000}
+.modal{background:var(--surface);border-radius:12px;padding:24px;max-width:500px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+.modal h3{margin:0 0 8px;font-size:1.1rem}
+.modal-hint{color:var(--text-dim);font-size:.85rem;margin:0 0 16px}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.proposal-opt{display:block;width:100%;text-align:left;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius);background:transparent;cursor:pointer;font-size:.88rem;margin-bottom:6px;font-family:var(--font)}
+.proposal-opt:hover{background:var(--bg);border-color:var(--accent)}
+.proposal-opt .opt-name{font-weight:600;display:block}
+.proposal-opt .opt-url{font-size:.78rem;color:var(--text-muted);display:block;margin-top:1px}
+
+/* ── Toast ────────────────────────────────────────── */
+.toast{position:fixed;bottom:24px;right:24px;padding:12px 20px;border-radius:var(--radius);font-size:.88rem;font-weight:500;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:999;animation:slideUp .3s ease;max-width:380px}
+.toast.success{background:var(--green-text);color:#fff}
+.toast.error{background:var(--red-text);color:#fff}
+.toast.info{background:var(--accent);color:#fff}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── Responsive ───────────────────────────────────── */
+@media(max-width:700px){
+  body{padding:12px}
+  header,section{padding:16px}
+  header h1{font-size:1.1rem}
+  #tribus-grid{grid-template-columns:1fr}
+  .tribe-fields textarea{min-height:40px}
+  .squad-item .squad-name-input{min-width:80px}
+  .cmp-summary table,.cmp-detail table{font-size:.8rem}
+  .cmp-summary th,.cmp-summary td,.cmp-detail th,.cmp-detail td{padding:5px 7px}
+  .custom-app-form input[type="text"]{min-width:100px;flex:1}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <header>
+    <h1>🏛️ Arquitectura de Información · Área TIC</h1>
+    <div class="header-controls">
+      <input type="text" id="propuesta-nombre" placeholder="Nombre de la propuesta (ej. Q1 2026)…" autocomplete="off">
+      <button id="btn-guardar" title="Guardar en localStorage">💾 Guardar</button>
+      <button id="btn-cargar-propuesta" title="Cargar propuesta desde catálogo">📂 Cargar propuesta</button>
+    </div>
+  </header>
+
+  <!-- ═══ Tribes ═══ -->
+  <section id="tribus-section">
+    <h2>Tribus</h2>
+    <div id="tribus-grid"></div>
+    <button id="btn-add-tribe" class="btn-secondary">+ Añadir tribu</button>
+  </section>
+
+  <!-- ═══ App table ═══ -->
+  <section id="tabla-section">
+    <div class="tabla-toolbar">
+      <input type="text" id="filter-input" placeholder="🔍 Buscar nombre o descripción…" autocomplete="off">
+      <select id="state-filter">
+        <option value="all">Todas las apps</option>
+        <option value="unassigned">Sin asignar</option>
+        <option value="no-tribe">Sin tribu</option>
+        <option value="no-squad">Sin escuadrón</option>
+        <option value="assigned">Completamente asignadas</option>
+      </select>
+      <span id="app-count-table"></span>
+    </div>
+    <div id="tabla-wrapper">
+      <table>
+        <thead><tr><th>Aplicación</th><th>Tribu</th><th>Escuadrón</th></tr></thead>
+        <tbody id="tabla-body"></tbody>
+      </table>
+    </div>
+    <div id="pagination" class="pagination-bar">
+      <button id="btn-prev-page" class="btn-sm page-btn" disabled>‹</button>
+      <span id="page-numbers"></span>
+      <button id="btn-next-page" class="btn-sm page-btn" disabled>›</button>
+      <span class="page-info" id="page-info"></span>
+      <span class="size-label">mostrar
+        <select id="page-size-select">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="50">50</option>
+        </select>
+      </span>
+    </div>
+  </section>
+
+  <!-- ═══ Custom apps ═══ -->
+  <section id="custom-apps-section">
+    <h2>✚ Añadir aplicación personalizada</h2>
+    <div class="custom-app-form">
+      <div class="field-group">
+        <label for="custom-app-name">Nombre *</label>
+        <input type="text" id="custom-app-name" placeholder="ej. Notion" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label for="custom-app-desc">Descripción</label>
+        <input type="text" id="custom-app-desc" placeholder="Breve descripción" autocomplete="off">
+      </div>
+      <div class="field-group">
+        <label for="custom-app-url">URL</label>
+        <input type="text" id="custom-app-url" placeholder="https://…" autocomplete="off">
+      </div>
+      <button id="btn-add-custom-app" class="btn-primary" style="margin-bottom:1px">➕ Añadir</button>
+    </div>
+    <div id="custom-apps-list"></div>
+  </section>
+
+  <!-- ═══ Actions ═══ -->
+  <section class="actions">
+    <button id="btn-exportar" class="btn-primary">📤 Exportar JSON (v2)</button>
+    <button id="btn-limpiar" class="btn-secondary">🗑 Limpiar asignaciones</button>
+  </section>
+
+  <!-- ═══ Comparison (single-proposal metrics) ═══ -->
+  <section id="comparison-section">
+    <h2>📊 Métricas de propuesta</h2>
+    <div class="comparison-toolbar">
+      <select id="proposal-selector">
+        <option value="__current__">Actual</option>
+      </select>
+    </div>
+    <div id="comparison-wrapper"></div>
+  </section>
+
+  <!-- ═══ Modal Cargar Propuesta ═══ -->
+  <div id="load-modal" class="modal-overlay" hidden>
+    <div class="modal">
+      <h3>Cargar propuesta</h3>
+      <p class="modal-hint">Selecciona una propuesta para cargar en el editor. Se reemplazará la propuesta actual.</p>
+      <div id="load-modal-list"></div>
+      <div class="modal-actions">
+        <button id="btn-cancel-load" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<datalist id="tribu-list"></datalist>
+<div id="datalists-container"></div>
+
+<script>
+(function(){
+'use strict';
+
+// ═══════════════════════════════════════════════════════
+// Constants
+// ═══════════════════════════════════════════════════════
+var STORAGE_KEY = 'ai-arch-propuesta-v2';
+var EXPORT_VERSION = 2;
+
+var seedApps = [];
+
+// ═══════════════════════════════════════════════════════
+// Helpers
+// ═══════════════════════════════════════════════════════
+function esc(s){
+  if(typeof s !== 'string') return '';
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
+
+function hostname(url){
+  if(!url) return '';
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch(e) { return url; }
+}
+
+function toast(msg, type){
+  type = type || 'info';
+  var el = document.createElement('div');
+  el.className = 'toast ' + type;
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(function(){ el.remove(); }, 3000);
+}
+
+function nowISO(){ return new Date().toISOString(); }
+
+function sum(arr){ return arr.reduce(function(a,b){return a+b;},0); }
+function mean(arr){ return arr.length ? sum(arr)/arr.length : 0; }
+function stddev(arr){
+  if(arr.length<2) return 0;
+  var m = mean(arr);
+  return Math.sqrt(arr.reduce(function(s,v){return s+(v-m)*(v-m);},0)/arr.length);
+}
+function cv(arr){
+  if(arr.length<2) return 0;
+  var m = mean(arr);
+  return m===0 ? 0 : stddev(arr)/m;
+}
+
+// ═══════════════════════════════════════════════════════
+// State
+// ═══════════════════════════════════════════════════════
+function freshState(){
+  return {
+    nombre: '',
+    tribus: [],
+    apps: seedApps.map(function(a){ return { app:a.app, desc:a.desc, url:a.url||'', seed:true, tribu:'', escuadron:'' }; })
+  };
+}
+
+var state = freshState();
+var _page = 1;
+var _pageSize = 20;
+var availableProposals = [];
+var cachedProposals = {};
+
+function getTribeNames(){
+  return state.tribus.map(function(t){ return t.nombre; });
+}
+
+function getSquadNames(tribeName){
+  var t = state.tribus.find(function(t){ return t.nombre === tribeName; });
+  return t ? t.escuadrones.map(function(s){ return s.nombre; }) : [];
+}
+
+function getTribeTotalMembers(tribeName){
+  var t = state.tribus.find(function(t){ return t.nombre === tribeName; });
+  if(!t) return 0;
+  return t.escuadrones.reduce(function(sum,s){ return sum + (s.miembros||0); }, 0);
+}
+
+function getTribeAppCount(tribeName){
+  return state.apps.filter(function(a){ return a.tribu === tribeName; }).length;
+}
+
+function getTribeAppNames(tribeName){
+  return state.apps.filter(function(a){ return a.tribu === tribeName; }).map(function(a){ return a.app; });
+}
+
+// ═══════════════════════════════════════════════════════
+// localStorage
+// ═══════════════════════════════════════════════════════
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      version: 2,
+      nombre: state.nombre,
+      tribus: state.tribus,
+      apps: state.apps
+    }));
+  } catch(e){}
+}
+
+function ensureSeedApps(){
+  if(!seedApps.length) return;
+  if(!state.apps) return;
+  var existing = {};
+  state.apps.forEach(function(a){ existing[a.app] = a; });
+  var merged = [];
+  seedApps.forEach(function(sa){
+    if(existing[sa.app]){
+      merged.push({ app:sa.app, desc:sa.desc, url:sa.url, seed:true, tribu:existing[sa.app].tribu||'', escuadron:existing[sa.app].escuadron||'' });
+    } else {
+      merged.push({ app:sa.app, desc:sa.desc, url:sa.url, seed:true, tribu:'', escuadron:'' });
+    }
+  });
+  state.apps.forEach(function(a){
+    if(!a.seed && !seedApps.some(function(s){ return s.app === a.app; })){
+      merged.push({ app:a.app, desc:a.desc||'', url:a.url||'', seed:false, tribu:a.tribu||'', escuadron:a.escuadron||'' });
+    }
+  });
+  state.apps = merged;
+}
+
+function migrateApp(app){
+  return { app:app.app||'', desc:app.descripcion||app.desc||'', url:app.url||'', seed:app.seed||false, tribu:app.tribu||'', escuadron:app.escuadron||'' };
+}
+
+function loadState(){
+  try {
+    var raw = localStorage.getItem(STORAGE_KEY);
+    if(raw){
+      var data = JSON.parse(raw);
+      if(data && data.apps && Array.isArray(data.apps)){
+        if(data.version === 2 || (data.tribus && data.tribus.length && typeof data.tribus[0] === 'object')){
+          state.nombre = data.nombre || '';
+          state.tribus = data.tribus || [];
+          state.apps = data.apps.map(migrateApp);
+          ensureSeedApps();
+        } else {
+          var converted = convertV1ToV2({ nombre:data.nombre||'', apps:data.apps, exportado:null });
+          state.nombre = converted.nombre;
+          state.tribus = converted.tribus;
+          state.apps = converted.apps.map(migrateApp);
+          ensureSeedApps();
+          toast('Propuesta migrada de formato v1 a v2.', 'info');
+        }
+      }
+    }
+  } catch(e){}
+  if(!state.apps || !state.apps.length){
+    state = freshState();
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// V1→V2 conversion
+// ═══════════════════════════════════════════════════════
+function convertV1ToV2(data){
+  var tribuMap = {};
+  data.apps.forEach(function(a){
+    if(a.tribu){
+      if(!tribuMap[a.tribu]) tribuMap[a.tribu] = { nombre:a.tribu, descripcion:'', escuadrones:{} };
+      if(a.escuadron) tribuMap[a.tribu].escuadrones[a.escuadron] = true;
+    }
+  });
+  var tribus = Object.keys(tribuMap).map(function(k){
+    var t = tribuMap[k];
+    return { nombre:t.nombre, descripcion:'', escuadrones:Object.keys(t.escuadrones).map(function(s){ return { nombre:s, miembros:0 }; }) };
+  });
+  return {
+    version: 2,
+    nombre: data.nombre || '',
+    tribus: tribus,
+    apps: data.apps.map(function(a){
+      return { app:a.app, descripcion:a.descripcion||a.desc||'', url:a.url||'', seed:a.seed||false, tribu:a.tribu||'', escuadron:a.escuadron||'' };
+    }),
+    exportado: data.exportado || null
+  };
+}
+
+// ═══════════════════════════════════════════════════════
+// Datalist updates
+// ═══════════════════════════════════════════════════════
+function updateTribeDatalist(){
+  document.getElementById('tribu-list').innerHTML = getTribeNames().map(function(t){
+    return '<option value="'+esc(t)+'">';
+  }).join('');
+}
+
+function ensureSquadDatalist(idx){
+  var id = 'squad-list-'+idx;
+  var el = document.getElementById(id);
+  if(!el){
+    el = document.createElement('datalist');
+    el.id = id;
+    document.getElementById('datalists-container').appendChild(el);
+  }
+  return el;
+}
+
+function updateSquadDatalist(idx){
+  var tribu = state.apps[idx] ? state.apps[idx].tribu : '';
+  var squads = getSquadNames(tribu);
+  ensureSquadDatalist(idx).innerHTML = squads.map(function(s){
+    return '<option value="'+esc(s)+'">';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// Render: Tribes
+// ═══════════════════════════════════════════════════════
+function renderTribes(){
+  var grid = document.getElementById('tribus-grid');
+  if(!state.tribus.length){
+    grid.innerHTML = '<div class="empty-tribes">Aún no hay tribus definidas. Crea la primera para empezar a clasificar las aplicaciones.</div>';
+    return;
+  }
+  grid.innerHTML = state.tribus.map(function(t, ti){
+    var appCount = getTribeAppCount(t.nombre);
+    var appNames = getTribeAppNames(t.nombre);
+    var appInfo = appCount ? '<strong>'+appCount+'</strong> app'+ (appCount!==1?'s':'') +' asignada'+ (appCount!==1?'s':'') + (appCount<=5 ? ': '+appNames.join(', ') : ': '+appNames.slice(0,3).join(',')+'...') : '0 apps asignadas';
+    var squadsHtml = t.escuadrones.map(function(s, si){
+      return '<div class="squad-item" data-si="'+si+'">'+
+        '<input type="text" class="squad-name-input" value="'+esc(s.nombre)+'" placeholder="Nombre escuadrón…" autocomplete="off">'+
+        '<input type="number" class="squad-miembros-input" value="'+(s.miembros||0)+'" min="0" placeholder="0">'+
+        '<span class="miembros-label">miembros</span>'+
+        '<button class="btn-remove-squad" title="Eliminar escuadrón">&times;</button>'+
+        '</div>';
+    }).join('');
+    return '<div class="tribe-card" data-ti="'+ti+'">'+
+      '<div class="tribe-card-header">'+
+        '<div class="tribe-fields">'+
+          '<input type="text" class="tribe-name-input" value="'+esc(t.nombre)+'" placeholder="Nombre de la tribu…" autocomplete="off">'+
+          '<textarea class="tribe-desc-input" rows="2" placeholder="Descripción breve de qué aplicaciones pertenecen aquí…">'+esc(t.descripcion||'')+'</textarea>'+
+        '</div>'+
+        '<button class="btn-remove-tribe" title="Eliminar esta tribu">&times;</button>'+
+      '</div>'+
+      '<div class="squad-list">'+squadsHtml+'</div>'+
+      '<button class="btn-add-squad btn-sm btn-secondary">+ Añadir escuadrón</button>'+
+      '<div class="tribe-apps-info">Apps: '+appInfo+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// Render: App table (paginated)
+// ═══════════════════════════════════════════════════════
+function urlMode(showEdit, idx, currentUrl){
+  if(showEdit){
+    return '<input type="text" class="url-input" value="'+esc(currentUrl||'')+'" data-idx="'+idx+'" placeholder="https://…" autocomplete="off">';
+  }
+  if(currentUrl){
+    return '<a href="'+esc(currentUrl)+'" target="_blank" rel="noopener">🔗 '+esc(hostname(currentUrl))+'</a> <button class="btn-icon btn-toggle-url" data-idx="'+idx+'" title="Editar URL">✏️</button>';
+  }
+  return '<button class="btn-icon btn-toggle-url" data-idx="'+idx+'" title="Añadir URL">➕ URL</button>';
+}
+
+function getFilteredIndices(){
+  var q = document.getElementById('filter-input').value.toLowerCase();
+  var sf = document.getElementById('state-filter').value;
+  var result = [];
+  state.apps.forEach(function(a, i){
+    if(q){
+      var haystack = (a.app + ' ' + (a.desc||'')).toLowerCase();
+      if(haystack.indexOf(q) === -1) return;
+    }
+    if(sf === 'unassigned' && a.tribu && a.escuadron) return;
+    if(sf === 'no-tribe' && a.tribu) return;
+    if(sf === 'no-squad' && (!a.tribu || a.escuadron)) return;
+    if(sf === 'assigned' && (!a.tribu || !a.escuadron)) return;
+    result.push(i);
+  });
+  return result;
+}
+
+function renderTablePage(){
+  var filtered = getFilteredIndices();
+  var total = filtered.length;
+  var totalPages = Math.max(1, Math.ceil(total / _pageSize));
+  if(_page > totalPages) _page = totalPages;
+
+  var start = (_page - 1) * _pageSize;
+  var end = Math.min(start + _pageSize, total);
+  var pageIndices = filtered.slice(start, end);
+
+  var tbody = document.getElementById('tabla-body');
+  tbody.innerHTML = pageIndices.map(function(i){
+    var a = state.apps[i];
+    var rmBtn = a.seed ? '' : '<button class="btn-icon btn-remove-app" data-idx="'+i+'" title="Eliminar app">&times;</button>';
+    var badge = a.seed ? '' : '<span class="custom-badge">personalizada</span>';
+    return '<tr data-idx="'+i+'">'+
+      '<td><div class="app-cell"><div class="app-title">'+esc(a.app)+' '+badge+' '+rmBtn+'</div><div class="app-desc">'+esc(a.desc||'')+'</div><div class="app-url">'+urlMode(false,i,a.url)+'</div></div></td>'+
+      '<td><input type="text" list="tribu-list" class="tribe-input" data-idx="'+i+'" value="'+esc(a.tribu)+'" placeholder="Tribu…" autocomplete="off"></td>'+
+      '<td><input type="text" list="squad-list-'+i+'" class="squad-input" data-idx="'+i+'" value="'+esc(a.escuadron)+'" placeholder="Escuadrón…" autocomplete="off"></td>'+
+    '</tr>';
+  }).join('');
+  updateTribeDatalist();
+  pageIndices.forEach(function(i){ updateSquadDatalist(i); });
+  updateAppCount(filtered.length);
+  renderPagination();
+}
+
+function renderPagination(){
+  var total = getFilteredIndices().length;
+  var totalPages = Math.max(1, Math.ceil(total / _pageSize));
+
+  document.getElementById('btn-prev-page').disabled = _page <= 1;
+  document.getElementById('btn-next-page').disabled = _page >= totalPages;
+
+  var maxVis = 7;
+  var sp = Math.max(1, _page - Math.floor(maxVis / 2));
+  var ep = Math.min(totalPages, sp + maxVis - 1);
+  if(ep - sp < maxVis - 1) sp = Math.max(1, ep - maxVis + 1);
+
+  var nums = '';
+  for(var p = sp; p <= ep; p++){
+    nums += '<button class="btn-sm page-btn' + (p === _page ? ' active' : '') + '" data-page="' + p + '">' + p + '</button>';
+  }
+  document.getElementById('page-numbers').innerHTML = nums;
+
+  var s = (_page - 1) * _pageSize + 1;
+  var e = Math.min(s + _pageSize - 1, total);
+  document.getElementById('page-info').textContent = total > 0 ? (s + '-' + e + ' de ' + total) : '0 resultados';
+}
+
+function goToPage(p){
+  var totalPages = Math.max(1, Math.ceil(getFilteredIndices().length / _pageSize));
+  if(p < 1) p = 1;
+  if(p > totalPages) p = totalPages;
+  if(p === _page) return;
+  _page = p;
+  renderTablePage();
+}
+
+function setPageSize(size){
+  _pageSize = parseInt(size) || 20;
+  _page = 1;
+  renderTablePage();
+}
+
+// ═══════════════════════════════════════════════════════
+// App count
+// ═══════════════════════════════════════════════════════
+function updateAppCount(filteredCount){
+  var total = state.apps.length;
+  var assigned = state.apps.filter(function(a){ return a.tribu && a.escuadron; }).length;
+  var info = assigned + ' / ' + total + ' asignadas';
+  if(filteredCount !== undefined && filteredCount < total){
+    info += ' (' + filteredCount + ' mostradas)';
+  }
+  document.getElementById('app-count-table').textContent = info;
+}
+
+// ═══════════════════════════════════════════════════════
+// Render: Custom apps list
+// ═══════════════════════════════════════════════════════
+function renderCustomAppsList(){
+  var container = document.getElementById('custom-apps-list');
+  var custom = state.apps.filter(function(a){ return !a.seed; });
+  if(!custom.length){
+    container.innerHTML = '<span class="empty-hint">Aún no hay aplicaciones personalizadas.</span>';
+    return;
+  }
+  container.innerHTML = custom.map(function(a){
+    return '<span class="chip">'+esc(a.app)+' <button class="chip-remove" data-app="'+esc(a.app)+'" title="Eliminar">&times;</button></span>';
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════
+// Tribe CRUD
+// ═══════════════════════════════════════════════════════
+function addTribe(){
+  var names = getTribeNames();
+  var n = 1;
+  while(names.indexOf('Nueva tribu '+n)>-1) n++;
+  state.tribus.push({ nombre:'Nueva tribu '+n, descripcion:'', escuadrones:[] });
+  syncUI();
+  saveState();
+  toast('Tribu "Nueva tribu '+n+'" creada.', 'success');
+  setTimeout(function(){
+    var cards = document.querySelectorAll('.tribe-card');
+    var last = cards[cards.length-1];
+    if(last){
+      var inp = last.querySelector('.tribe-name-input');
+      if(inp){ inp.focus(); inp.select(); }
+    }
+  }, 50);
+}
+
+function removeTribe(tribeIdx){
+  var t = state.tribus[tribeIdx];
+  if(!t) return;
+  var assigned = state.apps.filter(function(a){ return a.tribu === t.nombre; });
+  if(assigned.length && !confirm('La tribu "'+t.nombre+'" tiene '+assigned.length+' app(s) asignada(s).\nEliminar la tribu también limpiará esas asignaciones.')) return;
+  state.tribus.splice(tribeIdx, 1);
+  state.apps.forEach(function(a){
+    if(a.tribu === t.nombre){ a.tribu = ''; a.escuadron = ''; }
+  });
+  syncUI();
+  saveState();
+  toast('Tribu "'+t.nombre+'" eliminada.', 'info');
+}
+
+function renameTribe(tribeIdx, newName){
+  var t = state.tribus[tribeIdx];
+  if(!t || t.nombre === newName || !newName.trim()) return;
+  var oldName = t.nombre;
+  if(getTribeNames().indexOf(newName.trim()) > -1 && newName.trim() !== oldName){
+    toast('Ya existe una tribu con ese nombre.', 'error');
+    return;
+  }
+  t.nombre = newName.trim();
+  state.apps.forEach(function(a){
+    if(a.tribu === oldName) a.tribu = t.nombre;
+  });
+  syncUI();
+  saveState();
+}
+
+function setTribeDesc(tribeIdx, desc){
+  var t = state.tribus[tribeIdx];
+  if(!t) return;
+  t.descripcion = desc;
+  saveState();
+}
+
+// ═══════════════════════════════════════════════════════
+// Squad CRUD
+// ═══════════════════════════════════════════════════════
+function addSquad(tribeIdx){
+  var t = state.tribus[tribeIdx];
+  if(!t) return;
+  var names = t.escuadrones.map(function(s){ return s.nombre; });
+  var n = 1;
+  while(names.indexOf('Nuevo escuadrón '+n) > -1) n++;
+  t.escuadrones.push({ nombre:'Nuevo escuadrón '+n, miembros:0 });
+  renderTribes();
+  updateSquadDatalistsForTribe(t.nombre);
+  saveState();
+  setTimeout(function(){
+    var card = document.querySelector('.tribe-card[data-ti="'+tribeIdx+'"]');
+    if(card){
+      var items = card.querySelectorAll('.squad-item');
+      var last = items[items.length-1];
+      if(last){
+        var inp = last.querySelector('.squad-name-input');
+        if(inp){ inp.focus(); inp.select(); }
+      }
+    }
+  }, 50);
+}
+
+function removeSquad(tribeIdx, squadIdx){
+  var t = state.tribus[tribeIdx];
+  if(!t || !t.escuadrones[squadIdx]) return;
+  var s = t.escuadrones[squadIdx];
+  var assigned = state.apps.filter(function(a){ return a.tribu === t.nombre && a.escuadron === s.nombre; });
+  if(assigned.length && !confirm('El escuadrón "'+s.nombre+'" tiene '+assigned.length+' app(s) asignada(s).\nEliminarlo limpiará esas asignaciones.')) return;
+  t.escuadrones.splice(squadIdx, 1);
+  state.apps.forEach(function(a){
+    if(a.tribu === t.nombre && a.escuadron === s.nombre) a.escuadron = '';
+  });
+  renderTribes();
+  updateSquadDatalistsForTribe(t.nombre);
+  renderTablePage();
+  saveState();
+}
+
+function renameSquad(tribeIdx, squadIdx, newName){
+  var t = state.tribus[tribeIdx];
+  if(!t || !t.escuadrones[squadIdx]) return;
+  var s = t.escuadrones[squadIdx];
+  if(s.nombre === newName || !newName.trim()) return;
+  var oldName = s.nombre;
+  if(t.escuadrones.some(function(s2,i){ return i!==squadIdx && s2.nombre === newName.trim(); })){
+    toast('Ya existe un escuadrón con ese nombre en esta tribu.', 'error');
+    return;
+  }
+  s.nombre = newName.trim();
+  state.apps.forEach(function(a){
+    if(a.tribu === t.nombre && a.escuadron === oldName) a.escuadron = s.nombre;
+  });
+  renderTribes();
+  updateSquadDatalistsForTribe(t.nombre);
+  renderTablePage();
+  saveState();
+}
+
+function setSquadMembers(tribeIdx, squadIdx, val){
+  var t = state.tribus[tribeIdx];
+  if(!t || !t.escuadrones[squadIdx]) return;
+  var num = parseInt(val) || 0;
+  if(num < 0) num = 0;
+  t.escuadrones[squadIdx].miembros = num;
+  renderTribes();
+  saveState();
+}
+
+function updateSquadDatalistsForTribe(tribeName){
+  state.apps.forEach(function(a, i){
+    if(a.tribu === tribeName) updateSquadDatalist(i);
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// App CRUD
+// ═══════════════════════════════════════════════════════
+function addCustomApp(){
+  var nameEl = document.getElementById('custom-app-name');
+  var descEl = document.getElementById('custom-app-desc');
+  var urlEl = document.getElementById('custom-app-url');
+  var name = nameEl.value.trim();
+  if(!name){
+    toast('El nombre de la aplicación es obligatorio.', 'error');
+    nameEl.focus();
+    return;
+  }
+  if(state.apps.some(function(a){ return a.app.toLowerCase() === name.toLowerCase(); })){
+    toast('Ya existe una aplicación con ese nombre.', 'error');
+    nameEl.focus();
+    return;
+  }
+  state.apps.push({
+    app: name,
+    desc: descEl.value.trim(),
+    url: urlEl.value.trim(),
+    seed: false,
+    tribu: '',
+    escuadron: ''
+  });
+  nameEl.value = '';
+  descEl.value = '';
+  urlEl.value = '';
+  _page = 1;
+  renderTablePage();
+  renderCustomAppsList();
+  saveState();
+  toast('Aplicación "'+name+'" añadida.', 'success');
+  nameEl.focus();
+}
+
+function removeCustomApp(appName){
+  var idx = state.apps.findIndex(function(a){ return a.app === appName; });
+  if(idx === -1) return;
+  if(!confirm('¿Eliminar la aplicación "'+appName+'" de la propuesta?\nSe perderán sus asignaciones.')) return;
+  state.apps.splice(idx, 1);
+  _page = 1;
+  renderTablePage();
+  renderCustomAppsList();
+  saveState();
+}
+
+// ═══════════════════════════════════════════════════════
+// App table handlers
+// ═══════════════════════════════════════════════════════
+function handleAppTribeChange(idx, newVal){
+  if(idx<0 || idx>=state.apps.length) return;
+  var oldSquad = state.apps[idx].escuadron;
+  state.apps[idx].tribu = newVal;
+  var squads = getSquadNames(newVal);
+  if(oldSquad && squads.indexOf(oldSquad) === -1) state.apps[idx].escuadron = '';
+  renderTablePage();
+  renderTribes();
+  saveState();
+}
+
+function handleAppSquadChange(idx, newVal){
+  if(idx<0 || idx>=state.apps.length) return;
+  state.apps[idx].escuadron = newVal;
+  renderTablePage();
+  saveState();
+}
+
+function handleAppUrlChange(idx, newUrl){
+  if(idx<0 || idx>=state.apps.length) return;
+  state.apps[idx].url = newUrl;
+  saveState();
+}
+
+// ═══════════════════════════════════════════════════════
+// Sync UI
+// ═══════════════════════════════════════════════════════
+function syncUI(){
+  document.getElementById('propuesta-nombre').value = state.nombre;
+  renderTribes();
+  _page = 1;
+  renderTablePage();
+  renderCustomAppsList();
+  renderComparison();
+}
+
+// ═══════════════════════════════════════════════════════
+// Export
+// ═══════════════════════════════════════════════════════
+function exportJSON(){
+  if(!state.nombre.trim()){
+    toast('Escribe un nombre para la propuesta antes de exportar.', 'error');
+    return;
+  }
+  var payload = {
+    version: EXPORT_VERSION,
+    nombre: state.nombre.trim(),
+    tribus: state.tribus.map(function(t){
+      return { nombre:t.nombre, descripcion:t.descripcion||'', escuadrones:t.escuadrones.map(function(s){ return { nombre:s.nombre, miembros:s.miembros||0 }; }) };
+    }),
+    apps: state.apps.map(function(a){
+      return { app:a.app, descripcion:a.desc, url:a.url||'', tribu:a.tribu, escuadron:a.escuadron };
+    }),
+    exportado: nowISO()
+  };
+  var blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = (state.nombre.trim().replace(/\s+/g,'_')||'propuesta')+'.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+  toast('Propuesta exportada como JSON (v2).', 'success');
+}
+
+// ═══════════════════════════════════════════════════════
+// Comparison metrics
+// ═══════════════════════════════════════════════════════
+function computeProposalMetrics(prop){
+  var tribus = prop.tribus || [];
+  var apps = prop.apps || [];
+  var numTribus = tribus.length;
+  var numEscuadrones = tribus.reduce(function(s,t){ return s + (t.escuadrones||[]).length; }, 0);
+  var totalPersonas = tribus.reduce(function(s,t){ return s + ((t.escuadrones||[]).reduce(function(s2,e){ return s2+(e.miembros||0); },0)); }, 0);
+  var appsAsignadas = apps.filter(function(a){ return a.tribu; }).length;
+  var appsPerTribe = tribus.map(function(t){ return apps.filter(function(a){ return a.tribu===t.nombre; }).length; });
+  var persPerTribe = tribus.map(function(t){ return (t.escuadrones||[]).reduce(function(s,e){ return s+(e.miembros||0); },0); });
+  var escPerTribe = tribus.map(function(t){ return (t.escuadrones||[]).length; });
+  var appsPerEsc = [];
+  var persPerEsc = [];
+  tribus.forEach(function(t){ (t.escuadrones||[]).forEach(function(e){ appsPerEsc.push(apps.filter(function(a){ return a.tribu===t.nombre&&a.escuadron===e.nombre; }).length); persPerEsc.push(e.miembros||0); }); });
+  return { numTribus:numTribus, numEscuadrones:numEscuadrones, totalPersonas:totalPersonas, appsAsignadas:appsAsignadas, appsPerTribe:appsPerTribe, persPerTribe:persPerTribe, escPerTribe:escPerTribe, appsPerEsc:appsPerEsc, persPerEsc:persPerEsc };
+}
+
+function balanceLabel(v){ return v<0.25?'green':v<0.5?'amber':'red'; }
+
+function renderMetrics(prop, propName){
+  var wrapper = document.getElementById('comparison-wrapper');
+  if(!prop || !prop.tribus || !prop.tribus.length){
+    wrapper.innerHTML = '<div class="empty-hint" style="text-align:center;padding:24px;color:var(--text-muted)">La propuesta no tiene tribus definidas.</div>';
+    return;
+  }
+  var m = computeProposalMetrics(prop);
+  var h = '<div class="cmp-summary"><table><thead><tr><th>Métrica</th><th class="cmp-val">Valor</th><th class="cmp-val">Balance</th></tr></thead><tbody>';
+  var srows = [
+    {l:'Tribus', v:m.numTribus, e:''},
+    {l:'Escuadrones', v:m.numEscuadrones, e:''},
+    {l:'Personas totales', v:m.totalPersonas, e:''},
+    {l:'Apps asignadas', v:m.appsAsignadas, e:'de '+(prop.apps||[]).length}
+  ];
+  srows.forEach(function(r){
+    h += '<tr><td>'+r.l+'</td><td class="cmp-val">'+r.v+'</td><td class="cmp-val" style="color:var(--text-muted)">'+r.e+'</td></tr>';
+  });
+  h += '<tr style="height:6px"><td colspan="3" style="padding:0;border:none"></td></tr>';
+  var drows = [
+    {l:'Apps / Tribu (μ)', k:'appsPerTribe', d:1},
+    {l:'Personas / Tribu (μ)', k:'persPerTribe', d:1},
+    {l:'Escuadrones / Tribu (μ)', k:'escPerTribe', d:1},
+    {l:'Apps / Escuadrón (μ)', k:'appsPerEsc', d:1},
+    {l:'Personas / Escuadrón (μ)', k:'persPerEsc', d:1}
+  ];
+  drows.forEach(function(r){
+    var arr = m[r.k];
+    var avg = arr.length ? mean(arr) : 0;
+    var cvVal = arr.length >= 2 ? cv(arr) : -1;
+    var bc = cvVal >= 0 ? ' row-'+balanceLabel(cvVal) : '';
+    var cvDisp = cvVal >= 0 ? (cvVal*100).toFixed(1)+'%' : '—';
+    h += '<tr class="'+bc+'"><td>'+r.l+'</td><td class="cmp-val">'+avg.toFixed(r.d)+'</td><td class="cmp-val">CV: '+cvDisp+'</td></tr>';
+  });
+  h += '</tbody></table></div>';
+  h += '<div class="cmp-detail"><table><thead><tr><th>Tribu</th><th class="cmp-val">Es.</th><th class="cmp-val">Per.</th><th class="cmp-val">Apps</th></tr></thead><tbody>';
+  prop.tribus.forEach(function(t){
+    var esc = (t.escuadrones||[]).length;
+    var pers = (t.escuadrones||[]).reduce(function(s,e){return s+(e.miembros||0);},0);
+    var apps = (prop.apps||[]).filter(function(a){return a.tribu===t.nombre;}).length;
+    h += '<tr><td>'+esc(t.nombre)+'</td><td class="cmp-val">'+esc+'</td><td class="cmp-val">'+pers+'</td><td class="cmp-val">'+apps+'</td></tr>';
+  });
+  h += '</tbody></table></div>';
+  wrapper.innerHTML = h;
+}
+
+function renderComparison(){
+  var sel = document.getElementById('proposal-selector');
+  var val = sel ? sel.value : '__current__';
+  if(val === '__current__'){
+    renderMetrics({
+      nombre: state.nombre,
+      tribus: state.tribus,
+      apps: state.apps
+    }, 'Actual');
+  } else {
+    var cached = cachedProposals[val];
+    if(cached){
+      renderMetrics(cached, cached.nombre || 'Propuesta');
+    } else {
+      document.getElementById('comparison-wrapper').innerHTML = '<div class="empty-hint" style="text-align:center;padding:24px;color:var(--text-muted)">Cargando propuesta…</div>';
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// Reset
+// ═══════════════════════════════════════════════════════
+function resetState(){
+  if(!confirm('¿Limpiar todas las asignaciones? Se perderán los cambios no guardados.')) return;
+  state = freshState();
+  syncUI();
+  saveState();
+  toast('Propuesta limpiada.', 'info');
+}
+
+// ═══════════════════════════════════════════════════════
+// Events
+// ═══════════════════════════════════════════════════════
+function setupEvents(){
+  // Header
+  document.getElementById('propuesta-nombre').addEventListener('input', function(){ state.nombre=this.value; saveState(); });
+  document.getElementById('btn-guardar').addEventListener('click', function(){ saveState(); toast('Propuesta guardada.', 'success'); });
+  document.getElementById('btn-cargar-propuesta').addEventListener('click', openLoadModal);
+
+  // Add tribe
+  document.getElementById('btn-add-tribe').addEventListener('click', addTribe);
+
+  // Tribe cards (delegated)
+  var grid = document.getElementById('tribus-grid');
+  grid.addEventListener('change', function(e){
+    var el;
+    if((el=e.target.closest('.tribe-name-input'))){ var c=el.closest('.tribe-card'); if(c)renameTribe(parseInt(c.dataset.ti),el.value); return; }
+    if((el=e.target.closest('.tribe-desc-input'))){ var c=el.closest('.tribe-card'); if(c)setTribeDesc(parseInt(c.dataset.ti),el.value); return; }
+    if((el=e.target.closest('.squad-name-input'))){ var c=el.closest('.tribe-card'),i=el.closest('.squad-item'); if(c&&i)renameSquad(parseInt(c.dataset.ti),parseInt(i.dataset.si),el.value); return; }
+    if((el=e.target.closest('.squad-miembros-input'))){ var c=el.closest('.tribe-card'),i=el.closest('.squad-item'); if(c&&i)setSquadMembers(parseInt(c.dataset.ti),parseInt(i.dataset.si),el.value); return; }
+  });
+  grid.addEventListener('click', function(e){
+    var el;
+    if((el=e.target.closest('.btn-remove-tribe'))){ var c=el.closest('.tribe-card'); if(c)removeTribe(parseInt(c.dataset.ti)); return; }
+    if((el=e.target.closest('.btn-remove-squad'))){ var c=el.closest('.tribe-card'),i=el.closest('.squad-item'); if(c&&i)removeSquad(parseInt(c.dataset.ti),parseInt(i.dataset.si)); return; }
+    if((el=e.target.closest('.btn-add-squad'))){ var c=el.closest('.tribe-card'); if(c)addSquad(parseInt(c.dataset.ti)); return; }
+  });
+
+  // App table (delegated)
+  document.getElementById('tabla-body').addEventListener('change', function(e){
+    var t=e.target;
+    if(t.classList.contains('tribe-input')){ handleAppTribeChange(parseInt(t.dataset.idx),t.value); }
+    else if(t.classList.contains('squad-input')){ handleAppSquadChange(parseInt(t.dataset.idx),t.value); }
+    else if(t.classList.contains('url-input')){ handleAppUrlChange(parseInt(t.dataset.idx),t.value); }
+  });
+
+  // URL toggle + app remove (delegated)
+  document.getElementById('tabla-body').addEventListener('click', function(e){
+    var btn;
+    if((btn=e.target.closest('.btn-toggle-url'))){ var idx=parseInt(btn.dataset.idx),cell=btn.closest('.app-url'),cu=state.apps[idx]?state.apps[idx].url:''; cell.innerHTML=urlMode(true,idx,cu); var inp=cell.querySelector('.url-input'); if(inp){inp.focus();inp.select();} return; }
+    if((btn=e.target.closest('.btn-remove-app'))){ var idx=parseInt(btn.dataset.idx),app=state.apps[idx]; if(app)removeCustomApp(app.app); return; }
+  });
+
+  // URL save on blur
+  document.getElementById('tabla-body').addEventListener('blur', function(e){
+    var inp=e.target.closest('.url-input');
+    if(inp&&!inp.contains(e.relatedTarget)){ var idx=parseInt(inp.dataset.idx); handleAppUrlChange(idx,inp.value); var cell=inp.closest('.app-url'); if(cell)cell.innerHTML=urlMode(false,idx,state.apps[idx]?state.apps[idx].url:''); }
+  }, true);
+
+  // URL save on Enter
+  document.getElementById('tabla-body').addEventListener('keydown', function(e){
+    var inp=e.target.closest('.url-input');
+    if(inp&&e.key==='Enter'){ e.preventDefault(); var idx=parseInt(inp.dataset.idx); handleAppUrlChange(idx,inp.value); var cell=inp.closest('.app-url'); if(cell)cell.innerHTML=urlMode(false,idx,state.apps[idx]?state.apps[idx].url:''); }
+  });
+
+  // Table filter + state filter
+  document.getElementById('filter-input').addEventListener('input', function(){ _page=1; renderTablePage(); });
+  document.getElementById('state-filter').addEventListener('change', function(){ _page=1; renderTablePage(); });
+
+  // Pagination
+  document.getElementById('btn-prev-page').addEventListener('click', function(){ goToPage(_page-1); });
+  document.getElementById('btn-next-page').addEventListener('click', function(){ goToPage(_page+1); });
+  document.getElementById('page-numbers').addEventListener('click', function(e){
+    var b=e.target.closest('.page-btn');
+    if(b&&b.dataset.page) goToPage(parseInt(b.dataset.page));
+  });
+  document.getElementById('page-size-select').addEventListener('change', function(){ setPageSize(this.value); });
+
+  // Custom apps
+  document.getElementById('btn-add-custom-app').addEventListener('click', addCustomApp);
+  document.getElementById('custom-app-name').addEventListener('keydown', function(e){ if(e.key==='Enter'){e.preventDefault();document.getElementById('btn-add-custom-app').click();} });
+  document.getElementById('custom-apps-list').addEventListener('click', function(e){ var b=e.target.closest('.chip-remove'); if(b)removeCustomApp(b.dataset.app); });
+
+  // Export / Clear
+  document.getElementById('btn-exportar').addEventListener('click', exportJSON);
+  document.getElementById('btn-limpiar').addEventListener('click', resetState);
+
+  // Comparison
+  document.getElementById('proposal-selector').addEventListener('change', function(){
+    var val = this.value;
+    if(val !== '__current__' && !cachedProposals[val]){
+      fetch(val).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json();})
+        .then(function(data){cachedProposals[val]=data;renderComparison();toast('Propuesta "'+(data.nombre||'')+'" cargada.','success');})
+        .catch(function(e){toast('Error al cargar propuesta: '+e.message,'error');document.getElementById('proposal-selector').value='__current__';renderComparison();});
+    }
+    renderComparison();
+  });
+
+  // Modal
+  document.getElementById('btn-cancel-load').addEventListener('click', closeLoadModal);
+  document.getElementById('load-modal').addEventListener('click', function(e){ if(e.target===this) closeLoadModal(); });
+  document.getElementById('load-modal-list').addEventListener('click', function(e){
+    var btn = e.target.closest('.proposal-opt');
+    if(btn) loadExternalProposal(btn.dataset.url);
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e){ if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();saveState();toast('Propuesta guardada.','success');} });
+}
+
+// ═══════════════════════════════════════════════════════
+// Fetch apps.json
+// ═══════════════════════════════════════════════════════
+function fetchAppsJSON(){
+  fetch('apps.json')
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(data){
+      if(!Array.isArray(data)) throw new Error('Formato inválido');
+      seedApps = data;
+      ensureSeedApps();
+      syncUI();
+      toast('Catálogo cargado ('+data.length+' apps).', 'info');
+    })
+    .catch(function(e){
+      toast('No se pudo cargar apps.json — '+e.message, 'error');
+    });
+}
+
+// ═══════════════════════════════════════════════════════
+// Fetch proposals list
+// ═══════════════════════════════════════════════════════
+function fetchProposalsList(){
+  fetch('proposals.json')
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(data){
+      if(!Array.isArray(data)) throw new Error('Formato inválido');
+      availableProposals = data;
+      renderProposalSelector();
+    })
+    .catch(function(e){
+      toast('No se pudo cargar proposals.json — '+e.message, 'warn');
+    });
+}
+
+function renderProposalSelector(){
+  var sel = document.getElementById('proposal-selector');
+  var cur = sel.value;
+  sel.innerHTML = '<option value="__current__">Actual</option>';
+  availableProposals.forEach(function(p){
+    var opt = document.createElement('option');
+    opt.value = p.url;
+    opt.textContent = p.nombre;
+    sel.appendChild(opt);
+  });
+  sel.value = cur;
+  if(sel.value !== cur && sel.options[cur]) sel.value = cur;
+}
+
+// ═══════════════════════════════════════════════════════
+// Load external proposal into editor
+// ═══════════════════════════════════════════════════════
+function openLoadModal(){
+  var list = document.getElementById('load-modal-list');
+  if(!availableProposals.length){
+    list.innerHTML = '<div style="color:var(--text-muted);font-size:.85rem;padding:12px 0">No hay propuestas disponibles en proposals.json.</div>';
+  } else {
+    list.innerHTML = availableProposals.map(function(p){
+      return '<button class="proposal-opt" data-url="'+esc(p.url)+'"><span class="opt-name">'+esc(p.nombre)+'</span><span class="opt-url">'+esc(p.url)+'</span></button>';
+    }).join('');
+  }
+  document.getElementById('load-modal').hidden = false;
+}
+
+function closeLoadModal(){
+  document.getElementById('load-modal').hidden = true;
+}
+
+function loadExternalProposal(url){
+  closeLoadModal();
+  fetch(url)
+    .then(function(r){
+      if(!r.ok) throw new Error('HTTP '+r.status);
+      return r.json();
+    })
+    .then(function(data){
+      if(!data || !Array.isArray(data.apps)){
+        toast('Formato de propuesta inválido (falta "apps").', 'error');
+        return;
+      }
+      state.nombre = data.nombre || '';
+      state.tribus = Array.isArray(data.tribus) ? data.tribus.map(function(t){
+        return { nombre:t.nombre||'', descripcion:t.descripcion||'', escuadrones:Array.isArray(t.escuadrones) ? t.escuadrones.map(function(s){ return { nombre:s.nombre||'', miembros:parseInt(s.miembros)||0 }; }) : [] };
+      }) : [];
+      state.apps = data.apps.map(function(a){
+        return { app:a.app||'', desc:a.descripcion||a.desc||'', url:a.url||'', seed:a.seed||false, tribu:a.tribu||'', escuadron:a.escuadron||'' };
+      });
+      ensureSeedApps();
+      syncUI();
+      renderComparison();
+      saveState();
+      document.getElementById('proposal-selector').value = '__current__';
+      toast('Propuesta "'+(data.nombre||'')+'" cargada en el editor.', 'success');
+    })
+    .catch(function(e){
+      toast('Error al cargar propuesta: '+e.message, 'error');
+    });
+}
+
+// ═══════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════
+function init(){
+  loadState();
+  syncUI();
+  renderComparison();
+  setupEvents();
+  fetchAppsJSON();
+  fetchProposalsList();
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+})();
+</script>
+</body>
+</html>

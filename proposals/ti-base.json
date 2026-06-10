@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "nombre": "Propuesta TI Base",
+  "tribus": [
+    {
+      "nombre": "Infraestructura y Operaciones",
+      "descripcion": "Plataforma, redes, cloud y monitorización",
+      "escuadrones": [
+        { "nombre": "Cloud & Container", "miembros": 6 },
+        { "nombre": "Redes y Seguridad Perimetral", "miembros": 4 },
+        { "nombre": "Monitorización", "miembros": 3 },
+        { "nombre": "Base de Datos", "miembros": 5 }
+      ]
+    },
+    {
+      "nombre": "Producto y Negocio",
+      "descripcion": "Aplicaciones core de negocio y experiencia de usuario",
+      "escuadrones": [
+        { "nombre": "ERP y Finanzas", "miembros": 5 },
+        { "nombre": "CRM y Ventas", "miembros": 4 },
+        { "nombre": "Talento y RRHH", "miembros": 3 },
+        { "nombre": "Analítica y BI", "miembros": 4 }
+      ]
+    },
+    {
+      "nombre": "Colaboración y Desarrollo",
+      "descripcion": "Herramientas de productividad, DevOps y plataformas de desarrollo",
+      "escuadrones": [
+        { "nombre": "DevOps", "miembros": 5 },
+        { "nombre": "Colaboración", "miembros": 3 },
+        { "nombre": "Portal y Contenidos", "miembros": 3 }
+      ]
+    }
+  ],
+  "apps": [
+    { "app": "SAP", "descripcion": "ERP corporativo para finanzas, logística y RRHH", "url": "https://www.sap.com", "tribu": "Producto y Negocio", "escuadron": "ERP y Finanzas" },
+    { "app": "Salesforce", "descripcion": "CRM para gestión de ventas y relación con clientes", "url": "https://www.salesforce.com", "tribu": "Producto y Negocio", "escuadron": "CRM y Ventas" },
+    { "app": "ServiceNow", "descripcion": "ITSM para gestión de incidencias, cambios y catálogo TI", "url": "https://www.servicenow.com", "tribu": "", "escuadron": "" },
+    { "app": "Jira", "descripcion": "Gestión ágil de proyectos y seguimiento de incidencias", "url": "https://www.atlassian.com/software/jira", "tribu": "Colaboración y Desarrollo", "escuadron": "DevOps" },
+    { "app": "Confluence", "descripcion": "Wiki corporativa y documentación colaborativa", "url": "https://www.atlassian.com/software/confluence", "tribu": "Colaboración y Desarrollo", "escuadron": "Portal y Contenidos" },
+    { "app": "GitLab", "descripcion": "Plataforma DevOps con repositorio Git y CI/CD integrado", "url": "https://about.gitlab.com", "tribu": "Colaboración y Desarrollo", "escuadron": "DevOps" },
+    { "app": "GitHub", "descripcion": "Repositorio de código abierto y colaboración externa", "url": "https://github.com", "tribu": "Colaboración y Desarrollo", "escuadron": "DevOps" },
+    { "app": "PowerBI", "descripcion": "Business intelligence y dashboards interactivos", "url": "https://powerbi.microsoft.com", "tribu": "Producto y Negocio", "escuadron": "Analítica y BI" },
+    { "app": "Tableau", "descripcion": "Visualización avanzada de datos y analytics", "url": "https://www.tableau.com", "tribu": "Producto y Negocio", "escuadron": "Analítica y BI" },
+    { "app": "SharePoint", "descripcion": "Portal documental, intranet y gestión de contenidos", "url": "https://www.microsoft.com/sharepoint", "tribu": "Colaboración y Desarrollo", "escuadron": "Portal y Contenidos" },
+    { "app": "Microsoft Teams", "descripcion": "Mensajería, videoconferencia y colaboración unificada", "url": "https://www.microsoft.com/microsoft-teams", "tribu": "Colaboración y Desarrollo", "escuadron": "Colaboración" },
+    { "app": "Slack", "descripcion": "Mensajería instantánea y colaboración por canales", "url": "https://slack.com", "tribu": "Colaboración y Desarrollo", "escuadron": "Colaboración" },
+    { "app": "Oracle Database", "descripcion": "Base de datos relacional corporativa", "url": "https://www.oracle.com/database", "tribu": "Infraestructura y Operaciones", "escuadron": "Base de Datos" },
+    { "app": "Active Directory", "descripcion": "Directorio corporativo y gestión de identidades", "url": "https://learn.microsoft.com/windows-server/identity", "tribu": "Infraestructura y Operaciones", "escuadron": "Redes y Seguridad Perimetral" },
+    { "app": "Okta", "descripcion": "Identity as a Service con SSO, MFA y ciclo de vida", "url": "https://www.okta.com", "tribu": "", "escuadron": "" },
+    { "app": "Workday", "descripcion": "HCM y gestión de nómina en la nube", "url": "https://www.workday.com", "tribu": "Producto y Negocio", "escuadron": "Talento y RRHH" },
+    { "app": "Cornerstone", "descripcion": "Gestión del talento, desempeño y plataforma de aprendizaje", "url": "https://www.cornerstoneondemand.com", "tribu": "Producto y Negocio", "escuadron": "Talento y RRHH" },
+    { "app": "DocuSign", "descripcion": "Firma electrónica y acuerdo digital", "url": "https://www.docusign.com", "tribu": "", "escuadron": "" },
+    { "app": "Zendesk", "descripcion": "Atención al cliente, ticketing multicanal y helpdesk", "url": "https://www.zendesk.com", "tribu": "", "escuadron": "" },
+    { "app": "PagerDuty", "descripcion": "Gestión de incidentes, alertas y guardias on-call", "url": "https://www.pagerduty.com", "tribu": "Infraestructura y Operaciones", "escuadron": "Monitorización" },
+    { "app": "Datadog", "descripcion": "Monitorización y observabilidad de infraestructura cloud", "url": "https://www.datadoghq.com", "tribu": "Infraestructura y Operaciones", "escuadron": "Monitorización" },
+    { "app": "Snowflake", "descripcion": "Data warehouse cloud y analytics en la nube", "url": "https://www.snowflake.com", "tribu": "Producto y Negocio", "escuadron": "Analítica y BI" },
+    { "app": "Kubernetes", "descripcion": "Orquestación de contenedores y microservicios", "url": "https://kubernetes.io", "tribu": "Infraestructura y Operaciones", "escuadron": "Cloud & Container" },
+    { "app": "Docker", "descripcion": "Contenedores y entornos de desarrollo estandarizados", "url": "https://www.docker.com", "tribu": "Infraestructura y Operaciones", "escuadron": "Cloud & Container" }
+  ],
+  "exportado": "2026-06-10T10:00:00.000Z"
+}

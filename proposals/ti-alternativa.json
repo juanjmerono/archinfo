@@ -1,0 +1,68 @@
+{
+  "version": 2,
+  "nombre": "Propuesta TI Alternativa",
+  "tribus": [
+    {
+      "nombre": "Plataforma",
+      "descripcion": "Infraestructura cloud, datos y devops transversal",
+      "escuadrones": [
+        { "nombre": "Cloud", "miembros": 8 },
+        { "nombre": "Datos", "miembros": 6 },
+        { "nombre": "DevOps", "miembros": 5 }
+      ]
+    },
+    {
+      "nombre": "Aplicaciones Core",
+      "descripcion": "ERP, CRM, RRHH y firma digital",
+      "escuadrones": [
+        { "nombre": "ERP", "miembros": 4 },
+        { "nombre": "CRM", "miembros": 3 },
+        { "nombre": "Capital Humano", "miembros": 4 }
+      ]
+    },
+    {
+      "nombre": "Digital Workplace",
+      "descripcion": "Productividad, colaboración y portal",
+      "escuadrones": [
+        { "nombre": "Colaboración", "miembros": 4 },
+        { "nombre": "Portal", "miembros": 3 },
+        { "nombre": "AT", "miembros": 2 }
+      ]
+    },
+    {
+      "nombre": "Ciberseguridad e Identidad",
+      "descripcion": "IAM, directorio activo y seguridad de aplicaciones",
+      "escuadrones": [
+        { "nombre": "IAM", "miembros": 4 },
+        { "nombre": "Seguridad Apps", "miembros": 3 }
+      ]
+    }
+  ],
+  "apps": [
+    { "app": "SAP", "descripcion": "ERP corporativo para finanzas, logística y RRHH", "url": "https://www.sap.com", "tribu": "Aplicaciones Core", "escuadron": "ERP" },
+    { "app": "Salesforce", "descripcion": "CRM para gestión de ventas y relación con clientes", "url": "https://www.salesforce.com", "tribu": "Aplicaciones Core", "escuadron": "CRM" },
+    { "app": "ServiceNow", "descripcion": "ITSM para gestión de incidencias, cambios y catálogo TI", "url": "https://www.servicenow.com", "tribu": "Digital Workplace", "escuadron": "AT" },
+    { "app": "Jira", "descripcion": "Gestión ágil de proyectos y seguimiento de incidencias", "url": "https://www.atlassian.com/software/jira", "tribu": "Plataforma", "escuadron": "DevOps" },
+    { "app": "Confluence", "descripcion": "Wiki corporativa y documentación colaborativa", "url": "https://www.atlassian.com/software/confluence", "tribu": "Digital Workplace", "escuadron": "Portal" },
+    { "app": "GitLab", "descripcion": "Plataforma DevOps con repositorio Git y CI/CD integrado", "url": "https://about.gitlab.com", "tribu": "Plataforma", "escuadron": "DevOps" },
+    { "app": "GitHub", "descripcion": "Repositorio de código abierto y colaboración externa", "url": "https://github.com", "tribu": "Plataforma", "escuadron": "DevOps" },
+    { "app": "PowerBI", "descripcion": "Business intelligence y dashboards interactivos", "url": "https://powerbi.microsoft.com", "tribu": "Plataforma", "escuadron": "Datos" },
+    { "app": "Tableau", "descripcion": "Visualización avanzada de datos y analytics", "url": "https://www.tableau.com", "tribu": "Plataforma", "escuadron": "Datos" },
+    { "app": "SharePoint", "descripcion": "Portal documental, intranet y gestión de contenidos", "url": "https://www.microsoft.com/sharepoint", "tribu": "Digital Workplace", "escuadron": "Portal" },
+    { "app": "Microsoft Teams", "descripcion": "Mensajería, videoconferencia y colaboración unificada", "url": "https://www.microsoft.com/microsoft-teams", "tribu": "Digital Workplace", "escuadron": "Colaboración" },
+    { "app": "Slack", "descripcion": "Mensajería instantánea y colaboración por canales", "url": "https://slack.com", "tribu": "Digital Workplace", "escuadron": "Colaboración" },
+    { "app": "Oracle Database", "descripcion": "Base de datos relacional corporativa", "url": "https://www.oracle.com/database", "tribu": "Plataforma", "escuadron": "Datos" },
+    { "app": "Active Directory", "descripcion": "Directorio corporativo y gestión de identidades", "url": "https://learn.microsoft.com/windows-server/identity", "tribu": "Ciberseguridad e Identidad", "escuadron": "IAM" },
+    { "app": "Okta", "descripcion": "Identity as a Service con SSO, MFA y ciclo de vida", "url": "https://www.okta.com", "tribu": "Ciberseguridad e Identidad", "escuadron": "IAM" },
+    { "app": "Workday", "descripcion": "HCM y gestión de nómina en la nube", "url": "https://www.workday.com", "tribu": "Aplicaciones Core", "escuadron": "Capital Humano" },
+    { "app": "Cornerstone", "descripcion": "Gestión del talento, desempeño y plataforma de aprendizaje", "url": "https://www.cornerstoneondemand.com", "tribu": "Aplicaciones Core", "escuadron": "Capital Humano" },
+    { "app": "DocuSign", "descripcion": "Firma electrónica y acuerdo digital", "url": "https://www.docusign.com", "tribu": "Aplicaciones Core", "escuadron": "ERP" },
+    { "app": "Zendesk", "descripcion": "Atención al cliente, ticketing multicanal y helpdesk", "url": "https://www.zendesk.com", "tribu": "", "escuadron": "" },
+    { "app": "PagerDuty", "descripcion": "Gestión de incidentes, alertas y guardias on-call", "url": "https://www.pagerduty.com", "tribu": "Plataforma", "escuadron": "DevOps" },
+    { "app": "Datadog", "descripcion": "Monitorización y observabilidad de infraestructura cloud", "url": "https://www.datadoghq.com", "tribu": "Plataforma", "escuadron": "Cloud" },
+    { "app": "Snowflake", "descripcion": "Data warehouse cloud y analytics en la nube", "url": "https://www.snowflake.com", "tribu": "Plataforma", "escuadron": "Datos" },
+    { "app": "Kubernetes", "descripcion": "Orquestación de contenedores y microservicios", "url": "https://kubernetes.io", "tribu": "Plataforma", "escuadron": "Cloud" },
+    { "app": "Docker", "descripcion": "Contenedores y entornos de desarrollo estandarizados", "url": "https://www.docker.com", "tribu": "Plataforma", "escuadron": "Cloud" }
+  ],
+  "exportado": "2026-06-10T10:30:00.000Z"
+}
