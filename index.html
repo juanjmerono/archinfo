@@ -284,7 +284,7 @@ tbody td input::placeholder{color:var(--text-muted);font-size:.8rem}
   <div id="load-modal" class="modal-overlay" hidden>
     <div class="modal">
       <h3>Cargar propuesta</h3>
-      <p class="modal-hint">Selecciona una propuesta para cargar en el editor. Se reemplazará la propuesta actual.</p>
+      <p class="modal-hint">Selecciona una propuesta para cargar en el editor. La propuesta actual se mantiene guardada hasta que uses "Guardar".</p>
       <div id="load-modal-list"></div>
       <div class="modal-actions">
         <button id="btn-cancel-load" class="btn-secondary">Cancelar</button>
@@ -1176,8 +1176,7 @@ function loadExternalProposal(url){
       ensureSeedApps();
       syncUI();
       renderComparison();
-      saveState();
-      toast('Propuesta "'+(data.nombre||'')+'" cargada en el editor.', 'success');
+      toast('Propuesta "'+(data.nombre||'')+'" cargada en el editor. Usa "Guardar" si quieres conservarla.', 'success');
     })
     .catch(function(e){
       toast('Error al cargar propuesta: '+e.message, 'error');
